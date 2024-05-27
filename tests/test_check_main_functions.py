@@ -34,7 +34,7 @@ class TestMainFunctional:
     def test_close_pop_up_windows_ingredients(self, browser):
         main_page = MainPage(browser)
         main_page.check_close_modal_window_ingredient()
-        assert main_page.get_element_text(cp.CHECK_TEXT_DITAIL_INGREDIENT) == ''
+        assert main_page.get_element_text(cp.CHECK_TEXT_DITAIL_INGREDIENT) == 'Детали ингредиента'
 
     @allure.title('Проверка основного функционала')
     @allure.description('при добавлении ингредиента в заказ счётчик этого ингридиента увеличивается')
@@ -59,4 +59,4 @@ class TestMainFunctional:
         target = login_page.find(cp.BASKET)
         login_page.drag_and_drop_method(source, target)
         login_page.click_on_element(cp.CLICK_ORDER)
-        assert main_page.get_element_text(cp.CHECK_TEXT_SUCCESSFUL_ORDER) == 'Ваш заказ начали готовить'
+        assert main_page.check_order_placed()

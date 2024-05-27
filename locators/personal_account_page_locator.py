@@ -9,4 +9,4 @@ class ConstructionPageLocators:
     CHECK_INGREDIENT_COUNT = (By.XPATH, "//div[contains(@class, 'counter_counter__ZNLkj')]//p[contains(@class, 'counter_counter__num__3nue1')]")
     BASKET = (By.XPATH, '//*[@id="root"]/div/main/section[2]/ul')
     CLICK_ORDER = (By.XPATH, "//button[text()='Оформить заказ']")
-    CHECK_TEXT_SUCCESSFUL_ORDER = (By.CLASS_NAME, 'undefined text text_type_main-small mb-2')
+    CHECK_SUCCESSFUL_ORDER_WINDOW = ([By.XPATH, ".//section[contains(@class, 'Modal_modal_opened')]//p[text()='идентификатор заказа']"])

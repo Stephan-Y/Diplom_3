@@ -29,6 +29,8 @@ class TestPersonalAccount:
     def test_exit_personal_account(self, browser):
         login_page = LoginPage(browser)
         login_page.authorize()
+        login_page.click_on_element(mp.ACCOUNT_AUTHORIZE_BUTTON)
         login_page.click_on_element(mp.EXIT_BUTTON)
+        login_page.click_on_element(rp.RECOVERY_PASSWORD)
         login_page.wait_element(rp.CHECK_TEXT_ON_RECOVERY_PASSWORD_PAGE)
         assert login_page.get_element_text(rp.CHECK_TEXT_ON_RECOVERY_PASSWORD_PAGE) == 'Восстановление пароля'
