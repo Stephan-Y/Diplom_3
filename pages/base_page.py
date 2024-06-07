@@ -1,5 +1,3 @@
-import time
-
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.action_chains import ActionChains
@@ -11,14 +9,17 @@ class BasePage:
         self.browser = browser
         self.actions = ActionChains(browser)
 
-    def click_on_element(self, locator):
-        button = self.browser.find_element(*locator)
-        WebDriverWait(self.browser, 10).until(ec.element_to_be_clickable(locator))
-        button.click()
+    def find_element_with_waiting(self, locator, time=20):
+        WebDriverWait(self.browser, time).until(ec.visibility_of_element_located(locator))
+        return self.browser.find_element(*locator)
+
+    def click_on_element(self, locator, time=30):
+        click = ActionChains(self.browser)
+        element = self.find_element_with_waiting(locator, time)
+        click.move_to_element(element).click().perform()
 
     def get_element_text(self, locator):
-        element_dom = self.browser.find_element(*locator)
-        return element_dom.text
+        return self.find_element_with_waiting(locator).text
 
     def fill_field(self, locator, value):
         field = self.browser.find_element(*locator)
@@ -33,5 +34,3 @@ class BasePage:
 
     def drag_and_drop_method(self, source, target):
         self.actions.drag_and_drop(source, target).perform()
-
-
