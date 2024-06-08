@@ -1,8 +1,8 @@
 import time
 from pages.order_feed_page import OrderPage
 from pages.login_page import LoginPage
-from locators.main_page_locators import MainPageLocators as mp, MainPageLocators
-from locators.order_feed_page_locators import OrderFeedPageLocators as of
+from locators.main_page_locators import MainPageLocators as mpl
+from locators.order_feed_page_locators import OrderFeedPageLocators as ofl
 from locators.personal_account_page_locator import ConstructionPageLocators as cp
 import allure
 
@@ -15,8 +15,8 @@ class TestOrderFeed:
         order_page = OrderPage(browser)
         login_page = LoginPage(browser)
         login_page.authorize()
-        order_page.click_on_element(mp.ORDER_LIST)
-        order_page.click_on_element(of.FIRST_ORDER)
+        order_page.click_on_order_list()
+        order_page.click_on_first_order()
         assert order_page.check_modal_window_with_order_details_opened()
 
     @allure.title('Проверка раздела: «Лента заказов»')
@@ -29,13 +29,13 @@ class TestOrderFeed:
         target = login_page.find(cp.BASKET)
         login_page.drag_and_drop_method(source, target)
         login_page.click_on_element(cp.CLICK_ORDER)
-        login_page.click_on_element(of.CLOSE_MODAL_WIND)
-        login_page.click_on_element(MainPageLocators.ORDER_LIST)
-        order_page.wait_element(of.COUNT_ORDER_INDICATOR)
-        order_count = '#0'+login_page.get_element_text(of.COUNT_ORDER_INDICATOR)
-        login_page.click_on_element(mp.ACCOUNT_AUTHORIZE_BUTTON)
-        login_page.click_on_element(mp.ORDER_HISTORY)
-        order_count_in_account = login_page.get_element_text(of.COUNT_ORDER_INDICATOR_IN_PERSONAL_ACCOUNT)
+        login_page.click_on_element(ofl.CLOSE_MODAL_WIND)
+        login_page.click_on_element(mpl.ORDER_LIST)
+        order_page.wait_element(ofl.COUNT_ORDER_INDICATOR)
+        order_count = '#0'+login_page.get_element_text(ofl.COUNT_ORDER_INDICATOR)
+        login_page.click_on_element(mpl.ACCOUNT_AUTHORIZE_BUTTON)
+        login_page.click_on_element(mpl.ORDER_HISTORY)
+        order_count_in_account = login_page.get_element_text(ofl.COUNT_ORDER_INDICATOR_IN_PERSONAL_ACCOUNT)
         assert order_count in order_count_in_account
 
     @allure.title('Проверка раздела: «Лента заказов»')
@@ -44,16 +44,16 @@ class TestOrderFeed:
         order_page = OrderPage(browser)
         login_page = LoginPage(browser)
         login_page.authorize()
-        order_page.click_on_element(mp.ORDER_LIST)
-        all_time_orders = order_page.get_element_text(of.COUNT_ALL_TIME)
-        login_page.click_on_element(MainPageLocators.ACCOUNT_USER_BUTTON)
+        order_page.click_on_element(mpl.ORDER_LIST)
+        all_time_orders = order_page.get_element_text(ofl.COUNT_ALL_TIME)
+        login_page.click_on_element(mpl.ACCOUNT_USER_BUTTON)
         source = login_page.find(cp.BUY_BURGER)
         target = login_page.find(cp.BASKET)
         order_page.drag_and_drop_method(source, target)
         order_page.click_on_element(cp.CLICK_ORDER)
-        order_page.click_on_element(of.CLOSE_MODAL_WIND)
-        order_page.click_on_element(mp.ORDER_LIST)
-        all_time_orders_after = order_page.get_element_text(of.COUNT_ALL_TIME)
+        order_page.click_on_element(ofl.CLOSE_MODAL_WIND)
+        order_page.click_on_element(mpl.ORDER_LIST)
+        all_time_orders_after = order_page.get_element_text(ofl.COUNT_ALL_TIME)
         assert all_time_orders < all_time_orders_after
 
     @allure.title('Проверка раздела: «Лента заказов»')
@@ -62,17 +62,17 @@ class TestOrderFeed:
         order_page = OrderPage(browser)
         login_page = LoginPage(browser)
         login_page.authorize()
-        order_page.click_on_element(mp.ORDER_LIST)
-        all_time_orders = order_page.get_element_text(of.COUNT_TODAY)
-        login_page.click_on_element(MainPageLocators.ACCOUNT_USER_BUTTON)
+        order_page.click_on_element(mpl.ORDER_LIST)
+        all_time_orders = order_page.get_element_text(ofl.COUNT_TODAY)
+        login_page.click_on_element(mpl.ACCOUNT_USER_BUTTON)
         source = order_page.find(cp.BUY_BURGER)
         target = order_page.find(cp.BASKET)
         order_page.drag_and_drop_method(source, target)
         order_page.click_on_element(cp.CLICK_ORDER)
-        order_page.wait_element(of.CLOSE_MODAL_WIND)
-        order_page.click_on_element(of.CLOSE_MODAL_WIND)
-        order_page.click_on_element(mp.ORDER_LIST)
-        all_time_orders_after = order_page.get_element_text(of.COUNT_TODAY)
+        order_page.wait_element(ofl.CLOSE_MODAL_WIND)
+        order_page.click_on_element(ofl.CLOSE_MODAL_WIND)
+        order_page.click_on_element(mpl.ORDER_LIST)
+        all_time_orders_after = order_page.get_element_text(ofl.COUNT_TODAY)
         assert all_time_orders < all_time_orders_after
 
     @allure.title('Проверка раздела: «Лента заказов»')
@@ -85,10 +85,10 @@ class TestOrderFeed:
         target = order_page.find(cp.BASKET)
         order_page.drag_and_drop_method(source, target)
         order_page.click_on_element(cp.CLICK_ORDER)
-        order_page.click_on_element(of.CLOSE_MODAL_WIND)
-        order_page.click_on_element(mp.ORDER_LIST)
-        order_page.wait_element(of.COUNT_ORDER_INDICATOR)
-        number_order = '0'+login_page.get_element_text(of.COUNT_ORDER_INDICATOR)
+        order_page.click_on_element(ofl.CLOSE_MODAL_WIND)
+        order_page.click_on_element(mpl.ORDER_LIST)
+        order_page.wait_element(ofl.COUNT_ORDER_INDICATOR)
+        number_order = '0'+login_page.get_element_text(ofl.COUNT_ORDER_INDICATOR)
         time.sleep(3)
-        in_progress = order_page.get_element_text(of.ORDER_IN_PROGRESS)
+        in_progress = order_page.get_element_text(ofl.ORDER_IN_PROGRESS)
         assert number_order == in_progress

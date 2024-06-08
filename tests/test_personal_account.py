@@ -1,6 +1,4 @@
-from locators.main_page_locators import MainPageLocators as mp
 from pages.login_page import LoginPage
-from locators.password_recovery_page_locators import PasswordRecoveryPageLocators as rp
 import allure
 
 
@@ -10,27 +8,25 @@ class TestPersonalAccount:
     def test_click_personal_account(self, browser):
         login_page = LoginPage(browser)
         login_page.authorize()
-        login_page.click_on_element(mp.ACCOUNT_AUTHORIZE_BUTTON)
-        login_page.wait_element(mp.CHECK_TET_ACCOUNT_PAGES)
-        assert login_page.get_element_text(mp.CHECK_TET_ACCOUNT_PAGES) == 'В этом разделе вы можете изменить свои персональные данные'
+        login_page.wait_account_button()
+        login_page.click_account_button()
+        assert login_page.get_check_text_account_pages() == 'В этом разделе вы можете изменить свои персональные данные'
 
     @allure.title('Проверка раздела: Личный кабинет')
     @allure.description('переход в раздел «История заказов»,')
     def test_click_order_history(self, browser):
         login_page = LoginPage(browser)
         login_page.authorize()
-        login_page.click_on_element(mp.ACCOUNT_AUTHORIZE_BUTTON)
-        login_page.click_on_element(mp.ORDER_HISTORY)
-        login_page.wait_element(mp.CHECK_TEXT_ORDER_HISTORY)
-        assert login_page.get_element_text(mp.CHECK_TEXT_ORDER_HISTORY) in "Выполнен"
+        login_page.click_account_button()
+        login_page.click_on_order_history()
+        assert login_page.get_text_order_history() in "Выполнен"
 
     @allure.title('Проверка раздела: Личный кабинет')
-    @allure.description('выход из аккаунта.')
+    @allure.description('Выход из аккаунта.')
     def test_exit_personal_account(self, browser):
         login_page = LoginPage(browser)
         login_page.authorize()
-        login_page.click_on_element(mp.ACCOUNT_AUTHORIZE_BUTTON)
-        login_page.click_on_element(mp.EXIT_BUTTON)
-        login_page.click_on_element(rp.RECOVERY_PASSWORD)
-        login_page.wait_element(rp.CHECK_TEXT_ON_RECOVERY_PASSWORD_PAGE)
-        assert login_page.get_element_text(rp.CHECK_TEXT_ON_RECOVERY_PASSWORD_PAGE) == 'Восстановление пароля'
+        login_page.click_account_button()
+        login_page.click_on_exit_button()
+        login_page.click_on_recovery_password()
+        assert login_page.get_text_on_recovery_password_page() == 'Восстановление пароля'

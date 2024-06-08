@@ -40,11 +40,11 @@ class TestMainFunctional:
         main_page = MainPage(browser)
         login_page = LoginPage(browser)
         login_page.authorize()
-        count_start = main_page.get_count_of_ingrefient()
+        count_start = main_page.get_count_of_ingredient()
         source = login_page.find_burger()
         target = login_page.find_basket()
         login_page.drag_and_drop_method(source, target)
-        count_finish = main_page.get_count_of_ingrefient()
+        count_finish = main_page.get_count_of_ingredient()
         assert count_start < count_finish
 
     @allure.title('Проверка основного функционала')

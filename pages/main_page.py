@@ -51,5 +51,5 @@ class MainPage(BasePage):
         return self.get_element_text(cp.CHECK_TEXT_DITAIL_INGREDIENT)
 
     @allure.step("Проверяем переход на детали ингредиента")
-    def get_count_of_ingrefient(self):
+    def get_count_of_ingredient(self):
         return self.get_element_text(cp.CHECK_INGREDIENT_COUNT)
