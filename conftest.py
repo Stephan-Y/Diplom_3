@@ -18,7 +18,7 @@ def browser(request):
         raise ValueError("Unsupported browser! Please choose 'chrome' or 'firefox'.")
 
     driver.set_window_size(1920, 1080)
-    driver.implicitly_wait(10)
+    #driver.implicitly_wait(10)
     driver.get(TestData.URL)
     yield driver
     driver.quit()

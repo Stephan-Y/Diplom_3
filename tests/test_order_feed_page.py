@@ -1,13 +1,26 @@
-import time
 from pages.order_feed_page import OrderPage
 from pages.login_page import LoginPage
-from locators.main_page_locators import MainPageLocators as mpl
-from locators.order_feed_page_locators import OrderFeedPageLocators as ofl
-from locators.personal_account_page_locator import ConstructionPageLocators as cp
 import allure
 
 
 class TestOrderFeed:
+
+    @allure.title('Проверка раздела: «Лента заказов»')
+    @allure.description('после оформления заказа его номер появляется в разделе В работе')
+    def test_new_order_show_in_list_in_progress(self, browser):
+        order_page = OrderPage(browser)
+        login_page = LoginPage(browser)
+        login_page.authorize()
+        source = login_page.find_burger()
+        target = login_page.find_basket()
+        order_page.drag_and_drop_method(source, target)
+        order_page.click_on_make_order()
+        order_page.click_on_close_modal_wind()
+        order_page.click_on_order_list()
+        number_order = order_page.get_text_number_of_order()
+        order_page.skip_text_all_orders_are_ready()
+        in_progress = order_page.get_text_order_in_progress()
+        assert number_order == in_progress
 
     @allure.title('Проверка раздела: «Лента заказов»')
     @allure.description('если кликнуть на заказ, откроется всплывающее окно с деталями')
@@ -25,70 +38,52 @@ class TestOrderFeed:
         order_page = OrderPage(browser)
         login_page = LoginPage(browser)
         login_page.authorize()
-        source = login_page.find(cp.BUY_BURGER)
-        target = login_page.find(cp.BASKET)
+        source = login_page.find_burger()
+        target = login_page.find_basket()
         login_page.drag_and_drop_method(source, target)
-        login_page.click_on_element(cp.CLICK_ORDER)
-        login_page.click_on_element(ofl.CLOSE_MODAL_WIND)
-        login_page.click_on_element(mpl.ORDER_LIST)
-        order_page.wait_element(ofl.COUNT_ORDER_INDICATOR)
-        order_count = '#0'+login_page.get_element_text(ofl.COUNT_ORDER_INDICATOR)
-        login_page.click_on_element(mpl.ACCOUNT_AUTHORIZE_BUTTON)
-        login_page.click_on_element(mpl.ORDER_HISTORY)
-        order_count_in_account = login_page.get_element_text(ofl.COUNT_ORDER_INDICATOR_IN_PERSONAL_ACCOUNT)
+        order_page.click_on_make_order()
+        order_page.click_on_close_modal_wind()
+        order_page.click_on_order_list()
+        order_count = order_page.get_text_number_of_order()
+        login_page.click_account_button()
+        login_page.click_on_order_history()
+        order_count_in_account = login_page.get_text_order_indicator_in_personal_account()
         assert order_count in order_count_in_account
 
     @allure.title('Проверка раздела: «Лента заказов»')
     @allure.description('при создании нового заказа счётчик Выполнено за всё время увеличивается')
-    def test_new_order_counter_is_increacing_all_time(self, browser):
+    def test_new_order_counter_is_increasing_all_time(self, browser):
         order_page = OrderPage(browser)
         login_page = LoginPage(browser)
         login_page.authorize()
-        order_page.click_on_element(mpl.ORDER_LIST)
-        all_time_orders = order_page.get_element_text(ofl.COUNT_ALL_TIME)
-        login_page.click_on_element(mpl.ACCOUNT_USER_BUTTON)
-        source = login_page.find(cp.BUY_BURGER)
-        target = login_page.find(cp.BASKET)
+        order_page.click_on_order_list()
+        all_time_orders = order_page.get_text_count_all_time()
+        login_page.click_on_account_user_button()
+        source = login_page.find_burger()
+        target = login_page.find_basket()
         order_page.drag_and_drop_method(source, target)
-        order_page.click_on_element(cp.CLICK_ORDER)
-        order_page.click_on_element(ofl.CLOSE_MODAL_WIND)
-        order_page.click_on_element(mpl.ORDER_LIST)
-        all_time_orders_after = order_page.get_element_text(ofl.COUNT_ALL_TIME)
-        assert all_time_orders < all_time_orders_after
+        order_page.click_on_make_order()
+        order_page.click_on_close_modal_wind()
+        order_page.click_on_order_list()
+        browser.refresh()
+        all_time_orders_after = order_page.get_text_count_all_time()
+        assert int(all_time_orders) < int(all_time_orders_after)
 
     @allure.title('Проверка раздела: «Лента заказов»')
     @allure.description('при создании нового заказа счётчик Выполнено за сегодня увеличивается')
-    def test_new_order_counter_is_increacing_today(self, browser):
+    def test_new_order_counter_is_increasing_today(self, browser):
         order_page = OrderPage(browser)
         login_page = LoginPage(browser)
         login_page.authorize()
-        order_page.click_on_element(mpl.ORDER_LIST)
-        all_time_orders = order_page.get_element_text(ofl.COUNT_TODAY)
-        login_page.click_on_element(mpl.ACCOUNT_USER_BUTTON)
-        source = order_page.find(cp.BUY_BURGER)
-        target = order_page.find(cp.BASKET)
+        order_page.click_on_order_list()
+        all_time_orders = order_page.get_text_count_today()
+        login_page.click_on_account_user_button()
+        source = login_page.find_burger()
+        target = login_page.find_basket()
         order_page.drag_and_drop_method(source, target)
-        order_page.click_on_element(cp.CLICK_ORDER)
-        order_page.wait_element(ofl.CLOSE_MODAL_WIND)
-        order_page.click_on_element(ofl.CLOSE_MODAL_WIND)
-        order_page.click_on_element(mpl.ORDER_LIST)
-        all_time_orders_after = order_page.get_element_text(ofl.COUNT_TODAY)
-        assert all_time_orders < all_time_orders_after
-
-    @allure.title('Проверка раздела: «Лента заказов»')
-    @allure.description('после оформления заказа его номер появляется в разделе В работе')
-    def test_new_order_show_in_list_in_progress(self, browser):
-        order_page = OrderPage(browser)
-        login_page = LoginPage(browser)
-        login_page.authorize()
-        source = order_page.find(cp.BUY_BURGER)
-        target = order_page.find(cp.BASKET)
-        order_page.drag_and_drop_method(source, target)
-        order_page.click_on_element(cp.CLICK_ORDER)
-        order_page.click_on_element(ofl.CLOSE_MODAL_WIND)
-        order_page.click_on_element(mpl.ORDER_LIST)
-        order_page.wait_element(ofl.COUNT_ORDER_INDICATOR)
-        number_order = '0'+login_page.get_element_text(ofl.COUNT_ORDER_INDICATOR)
-        time.sleep(3)
-        in_progress = order_page.get_element_text(ofl.ORDER_IN_PROGRESS)
-        assert number_order == in_progress
+        order_page.click_on_make_order()
+        order_page.click_on_close_modal_wind()
+        order_page.click_on_order_list()
+        browser.refresh()
+        all_time_orders_after = order_page.get_text_count_today()
+        assert int(all_time_orders) < int(all_time_orders_after)

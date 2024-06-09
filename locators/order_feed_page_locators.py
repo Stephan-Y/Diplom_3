@@ -11,4 +11,6 @@ class OrderFeedPageLocators:
     CLOSE_MODAL_WIND = (By.XPATH, '//button[@class="Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK"]')
     ORDER_IN_PROGRESS = (By.XPATH, ".//ul[contains(@class, 'OrderFeed_orderListReady')]/li")
     ORDER_DETAILS = [By.XPATH, ".//section[contains(@class, 'Modal_modal_opened')]//ul/li/div[contains(@class, 'Modal_imgBox')]"]
+    TEXT_ALL_ORDERS_ARE_READY =  [By.XPATH, ".//li[contains(text(),'Все текущие заказы готовы!')]"]
+
 
