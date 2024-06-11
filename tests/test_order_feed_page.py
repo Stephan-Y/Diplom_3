@@ -44,7 +44,7 @@ class TestOrderFeed:
         order_page.click_on_make_order()
         order_page.click_on_close_modal_wind()
         order_page.click_on_order_list()
-        order_count = order_page.get_text_number_of_order()
+        order_count = f'#{order_page.get_text_number_of_order()}'
         login_page.click_account_button()
         login_page.click_on_order_history()
         order_count_in_account = login_page.get_text_order_indicator_in_personal_account()
@@ -65,7 +65,6 @@ class TestOrderFeed:
         order_page.click_on_make_order()
         order_page.click_on_close_modal_wind()
         order_page.click_on_order_list()
-        browser.refresh()
         all_time_orders_after = order_page.get_text_count_all_time()
         assert int(all_time_orders) < int(all_time_orders_after)
 

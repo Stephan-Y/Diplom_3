@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 
 class ConstructionPageLocators:
     FIRST_INGREDIENT = (By.XPATH, "//a[contains(@class, 'BurgerIngredient_ingredient_')][1]")
-    BUY_BURGER = (By.XPATH, '//*[@id="root"]/div/main/section[1]/div[2]/ul[1]/a[1]/img')
+    BUY_BURGER = (By.XPATH, '//*[contains(@class, "BurgerIngredient_ingredient__image") and @alt="Флюоресцентная булка R2-D3"]')
     CHECK_TEXT_DITAIL_INGREDIENT = (By.XPATH, "//h2[contains(text(), 'Детали ингредиента')]")
     CLOSE_INGREDIENT_WINDOW = (By.XPATH, '//button[contains(@class, "Modal_modal__close_modified__3V5XS")]')
     CHECK_INGREDIENT_COUNT = (By.XPATH, "//div[contains(@class, 'counter_counter__ZNLkj')]//p[contains(@class, 'counter_counter__num__3nue1')]")
